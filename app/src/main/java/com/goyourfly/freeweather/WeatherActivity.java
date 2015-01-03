@@ -82,7 +82,6 @@ public class WeatherActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("", "onActivityResult:" + requestCode + ", " + resultCode);
         if (requestCode == AddPlaceActivity.REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 int woeid = data.getIntExtra(AddPlaceActivity.INTENT_ADD_PLACE, -1);
@@ -102,7 +101,6 @@ public class WeatherActivity extends ActionBarActivity {
                         toast("GetSuccess");
                     }
                 }, woeid);
-
             }
         }
     }

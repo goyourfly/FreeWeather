@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ public class WeatherFragment extends Fragment {
     public static final String BUNDLE_WOEID = "BUNDLE_WOEID";
     private int mWoeid;
     private Handler mHandler;
+    private View rootView;
     @InjectView(R.id.linearLayout)
     LinearLayout mWeatherBottom;
     @InjectView(R.id.wind)
@@ -61,8 +61,8 @@ public class WeatherFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_weather, container, false);
-        ButterKnife.inject(this, view);
+        rootView = inflater.inflate(R.layout.fragment_weather, container, false);
+        ButterKnife.inject(this, rootView);
 
         WeatherModule.getInstance().getWeather(new WeatherModule.OnGetListener<Weather>() {
             @Override
@@ -87,10 +87,12 @@ public class WeatherFragment extends Fragment {
             }
         }, mWoeid);
 
-        return view;
+        return rootView;
     }
 
     private void initWeather(Weather weather) {
+        if (rootView.getVisibility() != View.VISIBLE)
+            rootView.setVisibility(View.VISIBLE);
         mPlace.setText(WeatherModule.getInstance().getPlace(weather.woeid).name);
         mWind.setText("wind:" + weather.windDirection + "/" + weather.windSpeed + "mph");
         mAtmosphere.setText("humidity:" + weather.humidity);
@@ -103,7 +105,7 @@ public class WeatherFragment extends Fragment {
 
             TextView day = (TextView) convertView.findViewById(R.id.forecast_day);
             TextView temp = (TextView) convertView.findViewById(R.id.forecast_temp);
-            ImageView weatherIcon = (ImageView)convertView.findViewById(R.id.forecast_weatherIcon);
+            ImageView weatherIcon = (ImageView) convertView.findViewById(R.id.forecast_weatherIcon);
             weatherIcon.setImageResource(WeatherIconFactory.getIcon(forecast.code));
 
             day.setText(forecast.day);

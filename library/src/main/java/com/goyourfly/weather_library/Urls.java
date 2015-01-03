@@ -11,9 +11,6 @@ import java.net.URLEncoder;
 public class Urls {
     public static final String CODE = "utf-8";
     public static final String APPID = "04855f5e0cf44a9433ffd7b191a0650b63aebb66";
-    public static final String BASE = "http://api.openweathermap.org";
-    public static final String WEATHER = BASE + "/data/2.5/weather?q=";
-
     public static final String GET_WOEID = "http://where.yahooapis.com/v1/places.q('XXX')?appid=" + APPID + "&format=json";
     public static final String GET_WEATHER = "https://query.yahooapis.com/v1/public/yql?q=WOEID&appid=" + APPID + "&format=json";
 

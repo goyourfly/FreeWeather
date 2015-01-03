@@ -90,7 +90,6 @@ public class WeatherModule {
                 .subscribe(new Action1<Weather>() {
                     @Override
                     public void call(Weather s) {
-//                        logD(s.toString());
                         listener.onGet(s);
                     }
                 }, new Action1<Throwable>() {

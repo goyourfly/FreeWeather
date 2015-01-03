@@ -32,7 +32,7 @@ public class ObjectTransformer {
             public Weather call() {
                 Weather weather = new Weather();
                 weather.woeid = woeid;
-                weather.date = netWeather.query.results.channel.item.condition.date;
+                weather.date = netWeather.query.results.channel.item.pubDate;
                 weather.code = Integer.parseInt(netWeather.query.results.channel.item.condition.code);
                 weather.temp = WeatherUtils.getCTemp(Integer.parseInt(netWeather.query.results.channel.item.condition.temp));
                 weather.weatherName = netWeather.query.results.channel.item.condition.text;
