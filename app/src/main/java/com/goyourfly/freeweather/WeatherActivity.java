@@ -1,12 +1,14 @@
 package com.goyourfly.freeweather;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class WeatherActivity extends ActionBarActivity {
+public class WeatherActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
+    private Toolbar mToolbar;
     @InjectView(R.id.viewPager)
     ViewPager mPager;
     private MyPagerAdapter mAdapter;
@@ -33,20 +36,22 @@ public class WeatherActivity extends ActionBarActivity {
         setContentView(R.layout.activity_weather);
         ButterKnife.inject(this);
 
+        mToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        mToolbar.setTitle("Weather");
+        mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(mToolbar);
+
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
-
+        mPager.setOnPageChangeListener(this);
         mAdapter.setData(WeatherModule.getInstance().getAllPlace());
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_weather, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_weather,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,6 +110,21 @@ public class WeatherActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mToolbar.setTitle("Weather-" + mAdapter.getPlace(position).name);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
         private List<Place> mPlace;
 
@@ -125,6 +145,10 @@ public class WeatherActivity extends ActionBarActivity {
         public void setData(List<Place> places) {
             mPlace = places;
             notifyDataSetChanged();
+        }
+
+        public Place getPlace(int position) {
+            return mPlace.get(position);
         }
 
         @Override

@@ -13,6 +13,7 @@ public class Urls {
     public static final String APPID = "04855f5e0cf44a9433ffd7b191a0650b63aebb66";
     public static final String GET_WOEID = "http://where.yahooapis.com/v1/places.q('XXX')?appid=" + APPID + "&format=json";
     public static final String GET_WEATHER = "https://query.yahooapis.com/v1/public/yql?q=WOEID&appid=" + APPID + "&format=json";
+    public static final String GET_WORD_PER_DAY = "http://open.iciba.com/dsapi/";
 
 
     public static String getWoeidUrl(String cityName) {
@@ -35,5 +36,8 @@ public class Urls {
             e.printStackTrace();
         }
         return null;
+    }
+    public static String getWordPerDayUrl() {
+        return GET_WORD_PER_DAY;
     }
 }

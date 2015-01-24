@@ -6,14 +6,17 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.goyourfly.weather_library.cache.PlaceCache;
 import com.goyourfly.weather_library.cache.WeatherCache;
+import com.goyourfly.weather_library.net.iciba_obj.NetICiBa;
 import com.goyourfly.weather_library.net.yahoo_obj.NetGetWoeId;
 import com.goyourfly.weather_library.net.yahoo_obj.NetWeather;
 import com.goyourfly.weather_library.transformer.JsonTransformer;
 import com.goyourfly.weather_library.net.Net;
 import com.goyourfly.weather_library.transformer.ObjectTransformer;
+import com.goyourfly.weather_library.ui.obj.ICiBa;
 import com.goyourfly.weather_library.ui.obj.Weather;
 import com.goyourfly.weather_library.ui.obj.Place;
 import com.goyourfly.weather_library.utils.Errors;
+import com.goyourfly.weather_library.utils.WeatherUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -147,6 +150,41 @@ public class WeatherModule {
                 });
 
     }
+
+    public void getWordPerDay(final OnGetListener<ICiBa> listener){
+        Net net = new Net();
+        net.getData(Urls.getWordPerDayUrl()).observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<String, Observable<NetICiBa>>() {
+                    @Override
+                    public Observable<NetICiBa> call(String s) {
+                        return JsonTransformer.getICiBa(s);
+                    }
+                })
+                .flatMap(new Func1<NetICiBa, Observable<ICiBa>>() {
+                    @Override
+                    public Observable<ICiBa> call(NetICiBa netICiBa) {
+                        return ObjectTransformer.getICiBa(netICiBa);
+                    }
+                })
+                .timeout(4000, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<ICiBa>() {
+                    @Override
+                    public void call(ICiBa iCiBa) {
+                        listener.onGet(iCiBa);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        listener.onError(WeatherUtils.getExceptionMsg(throwable));
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        listener.onFinally();
+                    }
+                });
+    }
+
 
     public void addPlace(Place place) {
         place.addDate = System.currentTimeMillis();

@@ -1,21 +1,17 @@
 package com.goyourfly.weather_library.transformer;
 
-import android.util.Log;
-
+import com.goyourfly.weather_library.net.iciba_obj.NetICiBa;
 import com.goyourfly.weather_library.net.yahoo_obj.NetForecast;
 import com.goyourfly.weather_library.net.yahoo_obj.NetPlace;
 import com.goyourfly.weather_library.net.yahoo_obj.NetWeather;
 import com.goyourfly.weather_library.ui.obj.Forecast;
+import com.goyourfly.weather_library.ui.obj.ICiBa;
 import com.goyourfly.weather_library.ui.obj.Weather;
 import com.goyourfly.weather_library.ui.obj.Place;
 import com.goyourfly.weather_library.utils.WeatherUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import rx.Observable;
 import rx.functions.Func0;
@@ -86,6 +82,23 @@ public class ObjectTransformer {
                     places.add(place);
                 }
                 return places;
+            }
+        });
+    }
+
+    public static Observable<ICiBa> getICiBa(final NetICiBa netICiBa){
+        return Async.start(new Func0<ICiBa>() {
+            @Override
+            public ICiBa call() {
+                ICiBa iCiBa = new ICiBa();
+                iCiBa.content = netICiBa.content;
+                iCiBa.dateline = netICiBa.dateline;
+                iCiBa.note = netICiBa.note;
+                iCiBa.translation = netICiBa.translation;
+                iCiBa.pictureLager = netICiBa.picture2;
+                iCiBa.pictureLittle = netICiBa.picture;
+
+                return iCiBa;
             }
         });
     }

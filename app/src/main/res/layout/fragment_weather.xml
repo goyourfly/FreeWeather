@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ccc"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:visibility="gone">
+    android:visibility="visible">
 
-    <LinearLayout
+    <com.goyourfly.freeweather.CustomWeightLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" />
+        android:layout_alignParentBottom="true" />
 
 
     <TextView
-        android:id="@+id/place"
+        android:id="@+id/weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="BeiJing"
         android:textColor="@color/dark_blue"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/linearLayout_nature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/place"
+        android:layout_above="@id/linearLayout"
         android:layout_marginTop="8dp"
         android:orientation="vertical">
 
-        <TextView
+        <com.goyourfly.freeweather.WeatherIconView
             android:id="@+id/wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:text="wind:"
             android:textColor="@color/dark_blue" />
 
-        <TextView
+        <com.goyourfly.freeweather.WeatherIconView
             android:id="@+id/atmosphere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,12 +51,20 @@
             android:textColor="@color/dark_blue" />
 
 
-        <TextView
-            android:id="@+id/astronomy"
+        <com.goyourfly.freeweather.WeatherIconView
+            android:id="@+id/sunrise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="astronomy:"
+            android:text="sunrise:"
+            android:textColor="@color/dark_blue" />
+
+        <com.goyourfly.freeweather.WeatherIconView
+            android:id="@+id/sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="sunset:"
             android:textColor="@color/dark_blue" />
 
 
@@ -64,34 +72,48 @@
 
 
     <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/linearLayout"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="2dp"
         android:text="Sat, 03 Jan 2015 11:00 am CST"
         android:textColor="@color/dark_blue"
         android:textSize="8dp" />
 
 
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/linearLayout"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="20dp"
         android:text="22°"
         android:textColor="@color/dark_blue"
-        android:textSize="80sp" />
+        android:textSize="80sp"
+        app:textWeight="light"
+        app:typeface="roboto_thin" />
 
-    <ImageView
+
+    <com.goyourfly.freeweather.WeatherIconView
         android:id="@+id/weather_icon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@id/linearLayout"
-        android:layout_below="@id/linearLayout_nature"
+        android:layout_alignBottom="@id/weather"
         android:layout_centerHorizontal="true"
-        android:padding="140dp"
-        android:src="@drawable/weather_0"
+        android:layout_toRightOf="@id/weather" />
+
+    <TextView
+        android:id="@+id/per_day_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/temp"
+        android:layout_below="@id/weather"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
+        android:text="Maybe it doesn't matter which road we embark on. Maybe what matters is that we embark."
         android:textColor="@color/dark_blue" />
 
 </RelativeLayout>

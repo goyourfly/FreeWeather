@@ -3,6 +3,7 @@ package com.goyourfly.weather_library.transformer;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.goyourfly.weather_library.net.iciba_obj.NetICiBa;
 import com.goyourfly.weather_library.net.yahoo_obj.NetGetWoeId;
 import com.goyourfly.weather_library.net.yahoo_obj.NetWeather;
 
@@ -31,6 +32,14 @@ public class JsonTransformer {
             @Override
             public NetGetWoeId call() {
                 return new Gson().fromJson(s, NetGetWoeId.class);
+            }
+        }, Schedulers.computation());
+    }
+    public static Observable<NetICiBa> getICiBa(final String s) {
+        return Async.start(new Func0<NetICiBa>() {
+            @Override
+            public NetICiBa call() {
+                return new Gson().fromJson(s, NetICiBa.class);
             }
         }, Schedulers.computation());
     }
